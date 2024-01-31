@@ -1,0 +1,49 @@
+default:
+include:
+ # To fetch the latest template, use:
+  - template: Terraform.latest.gitlab-ci.yml
+ # To fetch the advanced latest template, use:
+  - template: Terraform/Base.latest.gitlab-ci.yml
+ # To fetch the stable template, use:
+  - template: Terraform.gitlab-ci.yml
+ # To fetch the advanced stable template, use:
+  - template: Terraform/Base.gitlab-ci.yml
+
+stages:
+ - validate
+ - test
+ - build
+ - deploy
+ - cleanup
+
+fmt:
+ extends: .terraform:fmt
+ needs: []
+
+validate:
+ extends: .terraform:validate
+ needs: []
+
+build:
+ extends: .terraform:build
+
+deploy:
+ extends: .terraform:deploy
+ dependencies:
+   - build
+ environment:
+   name: $TF_STATE_NAME
+   action: start
+ rules:
+   - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+     when: on_success
+
+cleanup:
+  extends: .terraform:destroy
+  when: manual
+  allow_failure: true
+   
+variables:
+  TF_STATE_NAME: default
+  # If your terraform files are in a subdirectory, set TF_ROOT accordingly. For example:
+  # TF_ROOT: terraform/production

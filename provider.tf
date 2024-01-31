@@ -4,6 +4,7 @@ terraform {
       source = "Juniper/apstra"
     }
   }
+  backend "http" {}
 }
 
 provider "apstra" {
