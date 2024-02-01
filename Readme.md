@@ -200,6 +200,9 @@ Blueprint DC1 and virtual networks are successfully created.
 Connectivity templates are assigned to the appliacation points.
 <img src="images/ct.png">
 
+MAC IP entries are installed in the corresponding MAC-VRF routing instances.
+<img src="images/show.png">
+
 Server1 can ping Server2 via both virtual networks VN100 and VN200:
 ```
 aantonov@serv1:~$ ping 192.168.100.20
