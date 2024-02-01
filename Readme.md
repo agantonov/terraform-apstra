@@ -112,51 +112,45 @@ Terraform requires you to describe the final state of the system, i.e. the set o
 I have distributed Apstra Terraform resources among different files for convenience. However, you can configure all of them in a single file. It does not matter for Terraform. Let's have a look at the high level overview of the recources I'm going to configure:
 
 1\. [``agent_profile.tf``](https://github.com/agantonov/terraform-apstra/blob/main/agent_profile.tf) 
-* resource "apstra_agent_profile" creates an Agent Profile
+* The resource "apstra_agent_profile" creates an Agent Profile.
 As per the [documentation](https://registry.terraform.io/providers/Juniper/apstra/latest/docs/resources/agent_profile), credentials cannot be set using this resource. You need to create this resources manually in the Apstra UI and set credentials for the devices.
 
 2\. [``devices.tf``](https://github.com/agantonov/terraform-apstra/blob/main/devices.tf)
-* resource "apstra_managed_device" create off-box agents
-* resource "apstra_managed_device_ack" acknokedges each agent with the derived SN
+* The resource "apstra_managed_device" creates off-box agents.
+* The resource "apstra_managed_device_ack" acknokedges each agent with the derived SN.
 
 3\. [``resources.tf``](https://github.com/agantonov/terraform-apstra/blob/main/resources.tf)
-Create fabric resources:
-* resource "apstra_ipv4_pool"
-* resource "apstra_ipv4_pool"
-* resource "apstra_asn_pool"
-* resource "apstra_vni_pool"
+* The resource "apstra_ipv4_pool" creates IPv4 address pool.
+* The resource "apstra_asn_pool" creates ASN pool.
+* The resource "apstra_vni_pool" creates VNI pool.
 
 4\. [``tag.tf``](https://github.com/agantonov/terraform-apstra/blob/main/tag.tf)
-* resource "apstra_tag" creates tags
+* The resource "apstra_tag" creates tags.
 
 5\. [``design.tf``](https://github.com/agantonov/terraform-apstra/blob/main/design.tf)
-* resource "apstra_logical_device" creates a logical device
-* resource "apstra_interface_map" creates an interface map
-* resource "apstra_rack_type" creates a rack
-* resource "apstra_template_rack_based" creates a rack-based template
+* The resource "apstra_logical_device" creates a logical device.
+* The resource "apstra_interface_map" creates an interface map.
+* The resource "apstra_rack_type" creates a rack.
+* The resource "apstra_template_rack_based" creates a rack-based template.
 
 6\. [``blueprint.tf``](https://github.com/agantonov/terraform-apstra/blob/main/blueprint.tf)
-* resource "apstra_datacenter_blueprint" instantiates a blueprint from the previously-created template
-* resource "apstra_datacenter_resource_pool_allocation" assigns previously-created resource pools 
-* resource "apstra_datacenter_device_allocation" assigns interface maps and deploy mode
-* resource "apstra_blueprint_deployment" deploys the blueprint
+* The resource "apstra_datacenter_blueprint" instantiates a blueprint from the previously-created template.
+* The resource "apstra_datacenter_resource_pool_allocation" assigns previously-created resource pools.
+* The resource "apstra_datacenter_device_allocation" assigns interface maps and deploy mode.
+* The resource "apstra_blueprint_deployment" deploys the blueprint.
 
 7\. [``vn.tf``](https://github.com/agantonov/terraform-apstra/blob/main/vn.tf)
-* resource "apstra_datacenter_routing_zone" creates routing zones 
-* resource "apstra_datacenter_resource_pool_allocation" assigns loopbacks and VNIs for each routing zone
-* resource "apstra_datacenter_virtual_network" creates VNs per routing zone
-* resource "apstra_datacenter_resource_pool_allocation" assigns VNIs for each VN
+* The resource "apstra_datacenter_routing_zone" creates routing zones (VRFs).
+* The resource "apstra_datacenter_resource_pool_allocation" assigns loopbacks and VNIs for each routing zone.
+* The resource "apstra_datacenter_virtual_network" creates VNs per routing zone.
+* The resource "apstra_datacenter_resource_pool_allocation" assigns VNIs for each VN.
 
 8\. [``ct.tf``](https://github.com/agantonov/terraform-apstra/blob/main/ct.tf)
-* resource "apstra_datacenter_connectivity_template" creates connectivity template
-* resource "apstra_datacenter_connectivity_template_assignments" assigns CT to application points 
-
-At the end, I'm going to deploy the following IP Clos fabric:
-<img src="images/fabric.png">
+* The resource "apstra_datacenter_connectivity_template" creates connectivity template.
+* The resource "apstra_datacenter_connectivity_template_assignments" assigns CT to application points. 
 
 Now everything is ready and you are prepared to experience CI/CD with GitLab, Terraform and Apstra. All that remains is to commit the files to the GitLab repository.
 ```
-$ git add tag.tf
 $ git commit -m "Clos fabric deployment"
 [detached HEAD f79a59c] Clos fabric deployment
  1 file changed, 2 insertions(+), 3 deletions(-)
