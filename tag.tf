@@ -1,5 +1,4 @@
-# this example creates a tags named after enterprise teams
-# responsible for various data center asset types.
+# Creates tags
 locals {
   servers = toset([
     "ubuntu_server"
