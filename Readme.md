@@ -226,5 +226,5 @@ rtt min/avg/max/mdev = 2.889/3.135/3.382/0.246 ms
 If you need to make any changes to the current setup, you can create, delete or update a Terraform definition of Apstra resources, commit and push the configuration. Gitlab and Terraform will perform the neccesarry changes in the Apstra instance which, in turn, will push the configuration to the switches.
 
 ---
-This is an example of how Apstra integration with Terraform can help you to manage your data center physical infrastrature as a code.
+This is an example of how Apstra integration with Terraform can help you to manage your data center physical infrastructure as a code.
 
